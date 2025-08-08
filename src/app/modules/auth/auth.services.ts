@@ -9,6 +9,7 @@ import type {
 } from '@/modules/user/user.types';
 import type { DecodedUser } from '@/types/interfaces';
 import { generateToken, verifyToken } from '@/utilities/authUtilities';
+import { pickFields } from 'nhb-toolbox';
 
 /**
  * Create a new user in MongoDB `user` collection.
@@ -18,9 +19,7 @@ import { generateToken, verifyToken } from '@/utilities/authUtilities';
 const registerUserInDB = async (payload: IUser) => {
 	const newUser = await User.create(payload);
 
-	const { _id, user_name, email } = newUser.toObject();
-
-	const user = { _id, user_name, email };
+	const user = pickFields(newUser, ['_id', 'user_name', 'email']);
 
 	return user;
 };
@@ -56,14 +55,9 @@ const refreshToken = async (token: string): Promise<{ token: string }> => {
 	// * Validate and extract user from DB.
 	const user = await User.validateUser(decodedToken.email);
 
-	// * Create token and send to the  client.
-	const jwtPayload = {
-		email: user.email,
-		role: user.role,
-	};
-
+	// * Create token and send to the client.
 	const accessToken = generateToken(
-		jwtPayload,
+		pickFields(user, ['email', 'role']),
 		configs.accessSecret,
 		configs.accessExpireTime
 	);

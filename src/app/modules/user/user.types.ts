@@ -2,11 +2,10 @@ import type { TEmail, TUserRole } from '@/types';
 import type { Document, Model, Types } from 'mongoose';
 
 export interface IUser extends ILoginCredentials {
-	first_name: string;
-	last_name: string;
+	name: string;
 	role: TUserRole;
 	user_name: string;
-	is_active: boolean;
+	is_verified: boolean;
 }
 
 export interface ILoginCredentials {

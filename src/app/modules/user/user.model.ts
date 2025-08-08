@@ -18,12 +18,7 @@ const userSchema = new Schema<IUserDoc>(
 			trim: true,
 			unique: true,
 		},
-		first_name: {
-			type: String,
-			required: true,
-			trim: true,
-		},
-		last_name: {
+		name: {
 			type: String,
 			required: true,
 			trim: true,
@@ -37,11 +32,11 @@ const userSchema = new Schema<IUserDoc>(
 		role: {
 			type: String,
 			enum: USER_ROLES,
-			default: 'user',
+			default: 'student',
 		},
-		is_active: {
+		is_verified: {
 			type: Boolean,
-			default: true,
+			default: false,
 		},
 	},
 	{
@@ -55,7 +50,7 @@ const userSchema = new Schema<IUserDoc>(
 
 // * Hash password and create username before saving the user in DB.
 userSchema.pre('save', async function (next) {
-	const base = this.first_name?.toLowerCase()?.replace(/\s+/g, '_');
+	const base = this.name?.toLowerCase()?.replace(/\s+/g, '_');
 	let userName = base;
 	let suffix = 0;
 
@@ -92,7 +87,7 @@ userSchema.statics.validateUser = async function (email?: TEmail) {
 		);
 	}
 
-	if (!user.is_active) {
+	if (!user.is_verified) {
 		throw new ErrorWithStatus(
 			'Authentication Error',
 			`User with email ${email} is not active!`,

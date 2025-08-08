@@ -19,10 +19,10 @@ export const STATUS_CODES = {
 } as const;
 
 /** User Roles */
-export const USER_ROLES = ['super_admin', 'admin', 'user'] as const;
+export const USER_ROLES = ['student', 'admin', 'supervisor'] as const;
 
 /**Admin Roles */
-export const ADMIN_ROLES = USER_ROLES.filter((role) => role !== 'user');
+export const ADMIN_ROLES = USER_ROLES.filter((role) => role !== 'student');
 
 /** Collection Names */
 export const COLLECTIONS = ['N/A', 'User'] as const;
