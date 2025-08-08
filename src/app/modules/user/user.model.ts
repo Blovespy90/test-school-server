@@ -87,14 +87,14 @@ userSchema.statics.validateUser = async function (email?: TEmail) {
 		);
 	}
 
-	if (!user.is_verified) {
-		throw new ErrorWithStatus(
-			'Authentication Error',
-			`User with email ${email} is not active!`,
-			STATUS_CODES.FORBIDDEN,
-			'user'
-		);
-	}
+	// if (!user.is_verified) {
+	// 	throw new ErrorWithStatus(
+	// 		'Authentication Error',
+	// 		`User with email ${email} is not verified!`,
+	// 		STATUS_CODES.FORBIDDEN,
+	// 		'user'
+	// 	);
+	// }
 
 	return user;
 };
