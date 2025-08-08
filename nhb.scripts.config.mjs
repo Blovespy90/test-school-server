@@ -20,7 +20,7 @@ export default defineScriptConfig({
 	},
 	build: {
 		distFolder: 'dist',
-		commands: [{ cmd: 'tsc' }],
+		commands: [{ cmd: 'tsc' }, { cmd: 'tsc-alias' }],
 	},
 	count: {
 		defaultPath: 'src',

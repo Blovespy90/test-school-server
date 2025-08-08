@@ -1,6 +1,6 @@
 {
   "name": "test-school-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Express TypeScript Mongoose Server",
   "scripts": {
     "dev": "nodemon",
@@ -29,9 +29,6 @@
     "typescript",
     "mongoose"
   ],
-  "_moduleAliases": {
-    "@": "dist/app"
-  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "chalk": "4.1.2",
@@ -41,7 +38,6 @@
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "module-alias": "^2.2.3",
     "mongoose": "^8.17.1",
     "multer": "^2.0.2",
     "nhb-toolbox": "^4.13.11",
@@ -69,6 +65,7 @@
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.0",
     "vercel": "^44.7.3"

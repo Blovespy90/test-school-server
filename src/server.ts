@@ -1,5 +1,3 @@
-import 'module-alias/register';
-
 import configs from '@/configs';
 import { connectDB } from '@/configs/db';
 import chalk from 'chalk';
