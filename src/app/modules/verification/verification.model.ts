@@ -86,7 +86,7 @@ verificationSchema.statics.findVerificationByUser = async function (
 	if (isExpired) {
 		throw new ErrorWithStatus(
 			'OTP Expired',
-			`OTP expired at ${new Chronos(verification.expires_at).toLocalISOString()}!`,
+			`OTP expired at ${new Chronos(verification.expires_at)}!`,
 			STATUS_CODES.GONE,
 			'verification'
 		);

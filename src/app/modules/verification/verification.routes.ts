@@ -14,4 +14,10 @@ router.post(
 	verificationControllers.matchVerification
 );
 
+router.get(
+	'/request',
+	authorizeUser(...USER_ROLES),
+	verificationControllers.requestNewVerification
+);
+
 export const verificationRoutes = router;

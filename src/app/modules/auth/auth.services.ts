@@ -34,9 +34,9 @@ const registerUserInDB = async (payload: IUser) => {
 				await verificationServices.updateVerificationInDB(existingOTP._id, {
 					code: generateRandomID({ length: 6, caseOption: 'upper' }),
 				});
+			} else {
+				await Verification.create({ user: newUser._id });
 			}
-
-			await Verification.create({ user: newUser._id });
 
 			return user;
 		});
