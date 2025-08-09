@@ -7,7 +7,13 @@ import sendResponse from '@/utilities/sendResponse';
 const registerUser = catchAsync(async (req, res) => {
 	const user = await authServices.registerUserInDB(req.body);
 
-	sendResponse(res, 'User', 'POST', user, 'User registered successfully!');
+	sendResponse(
+		res,
+		'User',
+		'POST',
+		user,
+		'Successfully registered! Verify OTP within 10 minutes to activate your account!'
+	);
 });
 
 /** * Login a user */

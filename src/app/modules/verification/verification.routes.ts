@@ -8,7 +8,7 @@ import { Router } from 'express';
 const router = Router();
 
 router.post(
-	'/',
+	'/match',
 	validateRequest(verificationValidations.matchSchema),
 	authorizeUser(...USER_ROLES),
 	verificationControllers.matchVerification

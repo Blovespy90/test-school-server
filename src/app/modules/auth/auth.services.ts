@@ -7,9 +7,12 @@ import type {
 	ITokens,
 	IUser,
 } from '@/modules/user/user.types';
+import { Verification } from '@/modules/verification/verification.model';
+import { verificationServices } from '@/modules/verification/verification.services';
 import type { DecodedUser } from '@/types/interfaces';
 import { generateToken, verifyToken } from '@/utilities/authUtilities';
-import { pickFields } from 'nhb-toolbox';
+import { startSession } from 'mongoose';
+import { generateRandomID, pickFields } from 'nhb-toolbox';
 
 /**
  * Create a new user in MongoDB `user` collection.
@@ -17,11 +20,31 @@ import { pickFields } from 'nhb-toolbox';
  * @returns User object from MongoDB.
  */
 const registerUserInDB = async (payload: IUser) => {
-	const newUser = await User.create(payload);
+	const session = await startSession();
 
-	const user = pickFields(newUser, ['_id', 'user_name', 'email']);
+	try {
+		const result = await session.withTransaction(async () => {
+			const newUser = await User.create(payload);
 
-	return user;
+			const user = pickFields(newUser, ['_id', 'user_name', 'email']);
+
+			const existingOTP = await Verification.exists({ user: newUser._id });
+
+			if (existingOTP) {
+				await verificationServices.updateVerificationInDB(existingOTP._id, {
+					code: generateRandomID({ length: 6, caseOption: 'upper' }),
+				});
+			}
+
+			await Verification.create({ user: newUser._id });
+
+			return user;
+		});
+
+		return result;
+	} finally {
+		session.endSession();
+	}
 };
 
 /**

@@ -5,21 +5,24 @@ import type {
 	IVerificationModel,
 } from '@/modules/verification/verification.types';
 import { Schema, model } from 'mongoose';
+import { Chronos, generateRandomID } from 'nhb-toolbox';
 
 const verificationSchema = new Schema<IVerificationDoc>(
 	{
 		code: {
 			type: String,
-			required: true,
+			default: () => generateRandomID({ length: 6, caseOption: 'upper' }),
 		},
 		user: {
 			type: Schema.Types.ObjectId,
 			required: true,
 			unique: true,
+			ref: 'User',
 		},
 		expires_at: {
 			type: String,
 			required: true,
+			default: () => new Chronos().addMinutes(10).toISOString(),
 		},
 	},
 	{
@@ -78,6 +81,16 @@ verificationSchema.statics.findVerificationByUser = async function (
 		);
 	}
 
+	const isExpired = new Chronos().isEqualOrAfter(verification.expires_at);
+
+	if (isExpired) {
+		throw new ErrorWithStatus(
+			'OTP Expired',
+			`OTP expired at ${new Chronos(verification.expires_at).toLocalISOString()}!`,
+			STATUS_CODES.GONE,
+			'verification'
+		);
+	}
 	return verification;
 };
 
