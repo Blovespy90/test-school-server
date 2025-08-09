@@ -4,7 +4,7 @@ import type { RequestHandler } from 'express';
 import { Chronos, roundNumber } from 'nhb-toolbox';
 
 /** * Logs incoming HTTP requests in a structured and readable format. */
-export const requestLogger: RequestHandler = (req, res, next): void => {
+export const requestLogger: RequestHandler = (req, res, next) => {
 	const now = new Chronos();
 
 	const time =
@@ -19,6 +19,10 @@ export const requestLogger: RequestHandler = (req, res, next): void => {
 	const start = process.hrtime.bigint();
 
 	res.on('finish', () => {
+		if (req.user) {
+			console.info(chalk.yellowBright(`👤 Current User: 📧 ${req.user?.email}`));
+		}
+
 		const end = process.hrtime.bigint();
 		const durationMs = roundNumber(Number(end - start) / 1_000_000);
 

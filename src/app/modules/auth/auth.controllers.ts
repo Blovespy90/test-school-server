@@ -46,9 +46,16 @@ const getCurrentUser = catchAsync(async (req, res) => {
 	sendResponse(res, 'User', 'GET', user);
 });
 
+const resetPassword = catchAsync(async (req, res) => {
+	const result = await authServices.resetPassword(req.body, req?.user?.email);
+
+	sendResponse(res, 'User', 'GET', result, 'Successfully reset password!');
+});
+
 export const authControllers = {
 	registerUser,
 	loginUser,
 	refreshToken,
 	getCurrentUser,
+	resetPassword,
 };

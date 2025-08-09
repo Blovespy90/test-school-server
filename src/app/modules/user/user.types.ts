@@ -38,3 +38,8 @@ export interface ICurrentUser extends Omit<IUser, 'password'> {
 	created_at: string;
 	updated_at: string;
 }
+
+export interface IResetPassword {
+	old_password: string;
+	new_password: string;
+}

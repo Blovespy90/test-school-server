@@ -6,14 +6,21 @@ import { User } from '@/modules/user/user.model';
 import type {
 	ILoginCredentials,
 	IPlainUser,
+	IResetPassword,
 	ITokens,
 	IUser,
 } from '@/modules/user/user.types';
 import { Verification } from '@/modules/verification/verification.model';
 import { verificationServices } from '@/modules/verification/verification.services';
 import type { IVerificationDoc } from '@/modules/verification/verification.types';
+import type { TEmail } from '@/types';
 import type { DecodedUser } from '@/types/interfaces';
-import { generateToken, verifyToken } from '@/utilities/authUtilities';
+import {
+	comparePassword,
+	generateToken,
+	hashPassword,
+	verifyToken,
+} from '@/utilities/authUtilities';
 import { formatOtpEmail, sendEmail } from '@/utilities/emailUtilities';
 import { runTransaction } from '@/utilities/runTransaction';
 import { generateRandomID, pickFields } from 'nhb-toolbox';
@@ -115,9 +122,43 @@ const getCurrentUserFromDB = async (client?: DecodedUser) => {
 	return userInfo;
 };
 
+const resetPassword = async (payload: IResetPassword, email: TEmail | undefined) => {
+	const user = await User.validateUser(email);
+
+	const isValid = await comparePassword(payload.old_password, user.password);
+
+	if (!isValid) {
+		throw new ErrorWithStatus(
+			'Wrong Password',
+			'Old password did not match!',
+			STATUS_CODES.BAD_REQUEST,
+			'reset_password'
+		);
+	}
+
+	const newPassword = await hashPassword(payload.new_password);
+
+	const result = await User.findOneAndUpdate(
+		{ _id: user._id },
+		{ password: newPassword }
+	);
+
+	if (!result) {
+		throw new ErrorWithStatus(
+			'Password Reset Error',
+			'Cannot reset password! Check your payload!',
+			STATUS_CODES.INTERNAL_SERVER_ERROR,
+			'reset_password'
+		);
+	}
+
+	return { message: 'Successfully reset password!' };
+};
+
 export const authServices = {
 	registerUserInDB,
 	loginUser,
 	refreshToken,
 	getCurrentUserFromDB,
+	resetPassword,
 };

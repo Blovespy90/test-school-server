@@ -28,4 +28,11 @@ router.get(
 	authControllers.getCurrentUser
 );
 
+router.post(
+	'/reset-password',
+	validateRequest(authValidations.passwordResetSchema),
+	authorizeUser(...Object.values(USER_ROLES)),
+	authControllers.resetPassword
+);
+
 export const authRoutes = router;
