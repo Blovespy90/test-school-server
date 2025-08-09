@@ -1,4 +1,6 @@
+import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import configs from '@/configs';
+import { STATUS_CODES } from '@/constants';
 import { processLogin } from '@/modules/auth/auth.utils';
 import { User } from '@/modules/user/user.model';
 import type {
@@ -9,8 +11,10 @@ import type {
 } from '@/modules/user/user.types';
 import { Verification } from '@/modules/verification/verification.model';
 import { verificationServices } from '@/modules/verification/verification.services';
+import type { IVerificationDoc } from '@/modules/verification/verification.types';
 import type { DecodedUser } from '@/types/interfaces';
 import { generateToken, verifyToken } from '@/utilities/authUtilities';
+import { formatOtpEmail, sendEmail } from '@/utilities/emailUtilities';
 import { startSession } from 'mongoose';
 import { generateRandomID, pickFields } from 'nhb-toolbox';
 
@@ -24,18 +28,38 @@ const registerUserInDB = async (payload: IUser) => {
 
 	try {
 		const result = await session.withTransaction(async () => {
-			const newUser = await User.create(payload);
+			const [newUser] = await User.create([payload], { session });
 
 			const user = pickFields(newUser, ['_id', 'user_name', 'email']);
 
 			const existingOTP = await Verification.exists({ user: newUser._id });
 
+			let OTP: IVerificationDoc;
+
 			if (existingOTP) {
-				await verificationServices.updateVerificationInDB(existingOTP._id, {
-					code: generateRandomID({ length: 6, caseOption: 'upper' }),
-				});
+				OTP = await verificationServices.updateVerificationInDB(
+					existingOTP._id,
+					{ code: generateRandomID({ length: 6, caseOption: 'upper' }) },
+					session
+				);
 			} else {
-				await Verification.create({ user: newUser._id });
+				[OTP] = await Verification.create([{ user: newUser._id }], { session });
+			}
+
+			try {
+				await sendEmail({
+					to: newUser.email,
+					subject: 'OTP for Test School Account Verification',
+					html: formatOtpEmail(OTP.code, 10),
+					text: `Your OTP for Test School account verification is ${OTP.code}\n\nThis code will expire in 10 minutes.\n\nIf you didn’t request this code, please ignore this email.`,
+				});
+			} catch (error) {
+				throw new ErrorWithStatus(
+					'Email Sending Error',
+					(error as Error).message || 'Cannot send email right now!',
+					STATUS_CODES.INTERNAL_SERVER_ERROR,
+					'user_registration'
+				);
 			}
 
 			return user;

@@ -1,6 +1,7 @@
 import type { TEmail, TUserRole } from '@/types';
 import type { Router } from 'express';
 import type { JwtPayload } from 'jsonwebtoken';
+import type Mail from 'nodemailer/lib/mailer';
 
 export interface IDuplicateError {
 	errorResponse: {
@@ -57,4 +58,8 @@ export interface IRoute {
 export interface DecodedUser extends JwtPayload {
 	email: TEmail;
 	role: TUserRole;
+}
+
+export interface EmailOptions extends Omit<Mail.Options, 'from' | 'to'> {
+	to: TEmail;
 }

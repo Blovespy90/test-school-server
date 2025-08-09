@@ -1,6 +1,6 @@
 {
   "name": "test-school-server",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Express TypeScript Mongoose Server",
   "scripts": {
     "dev": "nodemon",
@@ -41,6 +41,7 @@
     "mongoose": "^8.17.1",
     "multer": "^2.0.2",
     "nhb-toolbox": "^4.13.11",
+    "nodemailer": "^7.0.5",
     "zod": "^4.0.15"
   },
   "devDependencies": {
@@ -53,6 +54,7 @@
     "@types/ms": "^2.1.0",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.2.0",
+    "@types/nodemailer": "^6.4.17",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
     "eslint": "^9.32.0",
