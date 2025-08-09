@@ -1,6 +1,7 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import configs from '@/configs';
 import { STATUS_CODES } from '@/constants';
+import { throwEmailError } from '@/errors/throwError';
 import { processLogin } from '@/modules/auth/auth.utils';
 import { User } from '@/modules/user/user.model';
 import type {
@@ -16,9 +17,9 @@ import type { IVerificationDoc } from '@/modules/verification/verification.types
 import type { TEmail } from '@/types';
 import type { DecodedUser } from '@/types/interfaces';
 import {
-	comparePassword,
 	generateToken,
 	hashPassword,
+	isValidToken,
 	verifyToken,
 } from '@/utilities/authUtilities';
 import { formatOtpEmail, sendEmail } from '@/utilities/emailUtilities';
@@ -58,12 +59,7 @@ const registerUserInDB = async (payload: IUser) => {
 				text: `Your OTP for Test School account verification is ${OTP.code}\n\nThis code will expire in 10 minutes.\n\nIf you didn’t request this code, please ignore this email.`,
 			});
 		} catch (error) {
-			throw new ErrorWithStatus(
-				'Email Error',
-				(error as Error).message || 'Cannot send email right now!',
-				STATUS_CODES.INTERNAL_SERVER_ERROR,
-				'user_registration'
-			);
+			throwEmailError(error, 'user_registration');
 		}
 
 		return user;
@@ -122,16 +118,35 @@ const getCurrentUserFromDB = async (client?: DecodedUser) => {
 	return userInfo;
 };
 
+const forgetPassword = async (email: TEmail | undefined) => {
+	const user = await User.validateUser(email);
+
+	const jwtPayload = {
+		email: user.email,
+		role: user.role,
+	};
+
+	const resetToken = generateToken(jwtPayload, configs.accessSecret, '10mins');
+
+	const resetLink = `${configs.resetPasswordLink}?token=${resetToken} `;
+
+	try {
+		await sendEmail({ to: user.email, text: resetLink });
+	} catch (error) {
+		throwEmailError(error, 'forget_Password');
+	}
+
+	return { message: 'Sent password reset link to your email!' };
+};
+
 const resetPassword = async (payload: IResetPassword, email: TEmail | undefined) => {
 	const user = await User.validateUser(email);
 
-	const isValid = await comparePassword(payload.old_password, user.password);
-
-	if (!isValid) {
+	if (!isValidToken(payload.token, user.email, configs.accessSecret)) {
 		throw new ErrorWithStatus(
-			'Wrong Password',
-			'Old password did not match!',
-			STATUS_CODES.BAD_REQUEST,
+			'Forbidden Access',
+			"The resource you're trying to access is forbidden!",
+			STATUS_CODES.FORBIDDEN,
 			'reset_password'
 		);
 	}
@@ -161,4 +176,5 @@ export const authServices = {
 	refreshToken,
 	getCurrentUserFromDB,
 	resetPassword,
+	forgetPassword,
 };

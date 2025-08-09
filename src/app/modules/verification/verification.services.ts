@@ -1,5 +1,6 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import { STATUS_CODES } from '@/constants';
+import { throwEmailError } from '@/errors/throwError';
 import { User } from '@/modules/user/user.model';
 import { Verification } from '@/modules/verification/verification.model';
 import type {
@@ -51,12 +52,7 @@ const matchVerificationInDB = async (code: string, email: TEmail | undefined) =>
 					text: `Dear ${user.name},\n\tYour Test School account verification is successful!`,
 				});
 			} catch (error) {
-				throw new ErrorWithStatus(
-					'Email Error',
-					(error as Error).message || 'Cannot send email right now!',
-					STATUS_CODES.INTERNAL_SERVER_ERROR,
-					'match_otp'
-				);
+				throwEmailError(error, 'match_otp');
 			}
 
 			return { message: 'Your account has been verified!' };
@@ -147,12 +143,7 @@ const requestNewVerification = async (email: TEmail | undefined) => {
 				text: `Your OTP for Test School account verification is ${newOTP.code}\n\nThis code will expire in 10 minutes.\n\nIf you didn’t request this code, please ignore this email.`,
 			});
 		} catch (error) {
-			throw new ErrorWithStatus(
-				'Email Error',
-				(error as Error).message || 'Cannot send email right now!',
-				STATUS_CODES.INTERNAL_SERVER_ERROR,
-				'request_otp'
-			);
+			throwEmailError(error, 'request_otp');
 		}
 
 		return { message: 'New verification code (OTP) has been generated!' };

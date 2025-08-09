@@ -20,4 +20,5 @@ export default {
 	imageBaseUrl: process.env.CLOUDINARY_IMAGE_BASE_URL as string,
 	email: process.env.EMAIL as string,
 	emailPassword: process.env.EMAIL_PASSWORD as string,
+	resetPasswordLink: process.env.PASSWORD_RESET_LINK,
 };

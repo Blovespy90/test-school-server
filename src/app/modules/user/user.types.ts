@@ -40,6 +40,6 @@ export interface ICurrentUser extends Omit<IUser, 'password'> {
 }
 
 export interface IResetPassword {
-	old_password: string;
+	token: string;
 	new_password: string;
 }

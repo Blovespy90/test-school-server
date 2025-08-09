@@ -28,6 +28,12 @@ router.get(
 	authControllers.getCurrentUser
 );
 
+router.get(
+	'/forget-password',
+	authorizeUser(...Object.values(USER_ROLES)),
+	authControllers.forgetPassword
+);
+
 router.post(
 	'/reset-password',
 	validateRequest(authValidations.passwordResetSchema),

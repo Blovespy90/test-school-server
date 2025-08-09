@@ -2,10 +2,12 @@ import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import configs from '@/configs';
 import { STATUS_CODES } from '@/constants';
 import type { IUser } from '@/modules/user/user.types';
+import type { TEmail } from '@/types';
 import type { DecodedUser } from '@/types/interfaces';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import type { StringValue } from 'ms';
+import { Chronos } from 'nhb-toolbox';
 
 /**
  * * Utility function to hash password using `bcrypt`.
@@ -98,3 +100,19 @@ export const verifyToken = (secret: string, token?: string): DecodedUser => {
 		);
 	}
 };
+
+/**
+ * * Check if a token contains certain email and expiry
+ * @param token Token to decode and verify
+ * @param email User email to compare
+ * @param secret Secret used when the token was issued
+ */
+export function isValidToken(token: string, email: TEmail, secret: string) {
+	const decoded = verifyToken(secret, token);
+
+	return Boolean(
+		email === decoded.email &&
+			decoded.exp &&
+			new Chronos().isEqualOrBefore(decoded.exp * 1000)
+	);
+}

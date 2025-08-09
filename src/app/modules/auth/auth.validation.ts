@@ -20,7 +20,7 @@ const loginSchema = z
 
 const passwordResetSchema = z
 	.object({
-		old_password: passwordSchema,
+		token: z.string({ error: 'Token is required!' }),
 		new_password: passwordSchema,
 	})
 	.strict();
