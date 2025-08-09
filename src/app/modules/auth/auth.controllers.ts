@@ -12,7 +12,7 @@ const registerUser = catchAsync(async (req, res) => {
 		'User',
 		'POST',
 		user,
-		'Successfully registered! Verify OTP within 10 minutes to activate your account!'
+		'Successfully registered! OTP has been sent to your email, please verify within 10 minutes!'
 	);
 });
 

@@ -25,7 +25,7 @@ const requestNewVerification = catchAsync(async (req, res) => {
 		'Verification',
 		'GET',
 		result,
-		'New verification code (OTP) has been sent to your email!'
+		'New verification code (OTP) has been sent to your email, please verify within 10 minutes!'
 	);
 });
 

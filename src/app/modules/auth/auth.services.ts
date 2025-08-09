@@ -22,7 +22,11 @@ import {
 	isValidToken,
 	verifyToken,
 } from '@/utilities/authUtilities';
-import { formatOtpEmail, sendEmail } from '@/utilities/emailUtilities';
+import {
+	formatOtpEmail,
+	formatResetPasswordEmail,
+	sendEmail,
+} from '@/utilities/emailUtilities';
 import { runTransaction } from '@/utilities/runTransaction';
 import { generateRandomID, pickFields } from 'nhb-toolbox';
 
@@ -131,7 +135,12 @@ const forgetPassword = async (email: TEmail | undefined) => {
 	const resetLink = `${configs.resetPasswordLink}?token=${resetToken} `;
 
 	try {
-		await sendEmail({ to: user.email, text: resetLink });
+		await sendEmail({
+			to: user.email,
+			subject: 'Reset Your Password - Test School',
+			html: formatResetPasswordEmail(resetLink, 10),
+			text: `Reset your password using the following link (valid for 10 minutes): ${resetLink}`,
+		});
 	} catch (error) {
 		throwEmailError(error, 'forget_Password');
 	}

@@ -48,8 +48,24 @@ const matchVerificationInDB = async (code: string, email: TEmail | undefined) =>
 				await sendEmail({
 					to: email!,
 					subject: 'Test School Account Verification',
-					html: `Dear ${user.name},\n\tYour Test School account verification is successful!`,
-					text: `Dear ${user.name},\n\tYour Test School account verification is successful!`,
+					html: /* html */ `
+						<!DOCTYPE html>
+						<html lang="en">
+						<head>
+							<meta charset="UTF-8" />
+							<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+							<title>Account Verified</title>
+						</head>
+						<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
+							<div style="max-width: 500px; margin: auto; background: #ffffff; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+								<h2 style="color: #2563eb; margin-bottom: 10px;">Account Verified</h2>
+								<p style="color: #333333; font-size: 16px;"><strong>Dear ${user.name}</strong>,</p>
+								<p style="color: #333333; font-size: 16px;">Your <strong>Test School</strong> account verification is successful!</p>
+							</div>
+						</body>
+						</html>
+					`,
+					text: `Dear ${user.name},\nYour Test School account verification is successful!`,
 				});
 			} catch (error) {
 				throwEmailError(error, 'match_otp');
