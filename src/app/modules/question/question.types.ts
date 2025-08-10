@@ -1,10 +1,12 @@
 import type { QUESTION_LEVELS } from '@/modules/question/question.constants';
 import type { Document, Model, Types } from 'mongoose';
 
+export type TQuestionLevel = (typeof QUESTION_LEVELS)[number];
+
 export interface IQuestion {
 	title: string;
 	competency: Types.ObjectId;
-	level: (typeof QUESTION_LEVELS)[number];
+	level: TQuestionLevel;
 	options: Array<{ option: string; is_correct: boolean }>;
 }
 
