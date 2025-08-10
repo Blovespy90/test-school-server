@@ -1,11 +1,11 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
-import { STATUS_CODES } from '@/constants';
 import type {
 	IVerificationDoc,
 	IVerificationModel,
 } from '@/modules/verification/verification.types';
 import { Schema, model } from 'mongoose';
 import { Chronos, generateRandomID } from 'nhb-toolbox';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 const verificationSchema = new Schema<IVerificationDoc>(
 	{

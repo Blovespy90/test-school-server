@@ -1,8 +1,8 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import { QueryBuilder } from '@/classes/QueryBuilder';
-import { STATUS_CODES } from '@/constants';
 import { Question } from '@/modules/question/question.model';
 import type { IQuestion } from '@/modules/question/question.types';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 const createQuestionInDB = async (payload: IQuestion) => {
 	const newQuestion = await Question.create(payload);

@@ -1,5 +1,4 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
-import { STATUS_CODES } from '@/constants';
 import { throwEmailError } from '@/errors/throwError';
 import { User } from '@/modules/user/user.model';
 import { Verification } from '@/modules/verification/verification.model';
@@ -12,6 +11,7 @@ import { formatOtpEmail, sendEmail } from '@/utilities/emailUtilities';
 import { runTransaction } from '@/utilities/runTransaction';
 import { type ClientSession, type Types } from 'mongoose';
 import { Chronos, generateRandomID, pluralizer } from 'nhb-toolbox';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 const matchVerificationInDB = async (code: string, email: TEmail | undefined) => {
 	const result = runTransaction(async (session) => {
@@ -21,7 +21,7 @@ const matchVerificationInDB = async (code: string, email: TEmail | undefined) =>
 			throw new ErrorWithStatus(
 				'Already Verified',
 				`User with email ${email} is already verified!`,
-				STATUS_CODES.UNPROCESSABLE_ENTITY,
+				STATUS_CODES.UNPROCESSABLE_CONTENT,
 				'verify_user'
 			);
 		}
@@ -116,7 +116,7 @@ const requestNewVerification = async (email: TEmail | undefined) => {
 			throw new ErrorWithStatus(
 				'Already Verified',
 				`User with email ${email} is already verified!`,
-				STATUS_CODES.UNPROCESSABLE_ENTITY,
+				STATUS_CODES.UNPROCESSABLE_CONTENT,
 				'request_otp'
 			);
 		}

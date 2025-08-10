@@ -1,10 +1,10 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
-import { STATUS_CODES } from '@/constants';
 import type {
 	ICompetencyDoc,
 	ICompetencyModel,
 } from '@/modules/competency/competency.types';
 import { Schema, model } from 'mongoose';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 const competencySchema = new Schema<ICompetencyDoc>(
 	{

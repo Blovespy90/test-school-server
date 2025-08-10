@@ -1,8 +1,8 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import { QueryBuilder } from '@/classes/QueryBuilder';
-import { STATUS_CODES } from '@/constants';
 import { Competency } from '@/modules/competency/competency.model';
 import type { ICompetency } from '@/modules/competency/competency.types';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 const createCompetencyInDB = async (payload: ICompetency) => {
 	const newCompetency = await Competency.create(payload);

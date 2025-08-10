@@ -1,8 +1,8 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import configs from '@/configs';
-import { STATUS_CODES } from '@/constants';
 import type { IPlainUser, IUserDoc } from '@/modules/user/user.types';
 import { comparePassword, generateToken } from '@/utilities/authUtilities';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 /**
  * Process user login.

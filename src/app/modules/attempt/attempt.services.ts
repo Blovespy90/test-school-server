@@ -1,8 +1,8 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import { QueryBuilder } from '@/classes/QueryBuilder';
-import { STATUS_CODES } from '@/constants';
 import { Attempt } from '@/modules/attempt/attempt.model';
 import type { IAttempt } from '@/modules/attempt/attempt.types';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 const createAttemptInDB = async (payload: IAttempt) => {
 	const newAttempt = await Attempt.create(payload);

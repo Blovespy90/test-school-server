@@ -1,7 +1,7 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
-import { STATUS_CODES } from '@/constants';
 import type { TCollection } from '@/types';
 import { isValidObjectId, type Types } from 'mongoose';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 import z from 'zod';
 
 /**

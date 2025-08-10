@@ -1,5 +1,6 @@
-import type { COLLECTIONS, STATUS_CODES, USER_ROLES } from '@/constants';
+import type { COLLECTIONS, USER_ROLES } from '@/constants';
 import type { Types } from 'mongoose';
+import type { STATUS_CODES } from 'nhb-toolbox/constants';
 import type { Branded } from 'nhb-toolbox/types';
 
 export type TCollection = (typeof COLLECTIONS)[number];

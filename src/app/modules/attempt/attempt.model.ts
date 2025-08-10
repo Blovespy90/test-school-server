@@ -1,5 +1,4 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
-import { STATUS_CODES } from '@/constants';
 import type {
 	IAttemptDoc,
 	IAttemptedQuestion,
@@ -7,8 +6,9 @@ import type {
 } from '@/modules/attempt/attempt.types';
 import { QUESTION_LEVELS } from '@/modules/question/question.constants';
 import type { TQuestionLevel } from '@/modules/question/question.types';
-import { Schema, model } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { getNumbersInRange } from 'nhb-toolbox';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 const questionSchema = new Schema<IAttemptedQuestion>(
 	{

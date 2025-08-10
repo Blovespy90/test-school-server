@@ -1,5 +1,4 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
-import { STATUS_CODES } from '@/constants';
 import { QUESTION_LEVELS } from '@/modules/question/question.constants';
 import type {
 	IQuestionDoc,
@@ -7,6 +6,7 @@ import type {
 	IQuestionOption,
 } from '@/modules/question/question.types';
 import { Schema, model } from 'mongoose';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 const optionSchema = new Schema<IQuestionOption>(
 	{

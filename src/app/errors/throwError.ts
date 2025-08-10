@@ -1,5 +1,5 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
-import { STATUS_CODES } from '@/constants';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 /**
  * Throw email error using custom error class

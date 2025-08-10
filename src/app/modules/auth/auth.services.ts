@@ -1,6 +1,5 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import configs from '@/configs';
-import { STATUS_CODES } from '@/constants';
 import { throwEmailError } from '@/errors/throwError';
 import { processLogin } from '@/modules/auth/auth.utils';
 import { User } from '@/modules/user/user.model';
@@ -29,6 +28,7 @@ import {
 } from '@/utilities/emailUtilities';
 import { runTransaction } from '@/utilities/runTransaction';
 import { generateRandomID, pickFields } from 'nhb-toolbox';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 /**
  * Create a new user in MongoDB `user` collection.

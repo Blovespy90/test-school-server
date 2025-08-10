@@ -1,10 +1,10 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import configs from '@/configs';
-import { STATUS_CODES } from '@/constants';
 import { User } from '@/modules/user/user.model';
 import type { TUserRole } from '@/types';
 import { verifyToken } from '@/utilities/authUtilities';
 import catchAsync from '@/utilities/catchAsync';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 /**
  * * Middleware to check if the user is authorized to access the route.

@@ -1,9 +1,9 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import configs from '@/configs';
-import { STATUS_CODES } from '@/constants';
 import processErrors from '@/errors/processErrors';
 import chalk from 'chalk';
 import type { ErrorRequestHandler, RequestHandler } from 'express';
+import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 /** * Middleware to Handle "Route Not Found" Errors.*/
 export const handleRouteNotFound: RequestHandler = (req, _res, next) => {
