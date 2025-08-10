@@ -16,7 +16,10 @@ export async function sendEmail(options: EmailOptions) {
 		auth: { user: email, pass: emailPassword },
 	});
 
-	await transporter.sendMail({ ...options, from: `Test School <${email}>` });
+	await transporter.sendMail({
+		...options,
+		from: { name: 'NHB Test School', address: email },
+	});
 }
 
 /**
