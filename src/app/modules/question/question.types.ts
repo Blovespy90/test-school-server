@@ -3,11 +3,16 @@ import type { Document, Model, Types } from 'mongoose';
 
 export type TQuestionLevel = (typeof QUESTION_LEVELS)[number];
 
+export interface IQuestionOption {
+	option: string;
+	is_correct: boolean;
+}
+
 export interface IQuestion {
 	title: string;
 	competency: Types.ObjectId;
 	level: TQuestionLevel;
-	options: Array<{ option: string; is_correct: boolean }>;
+	options: Array<IQuestionOption>;
 }
 
 export interface IQuestionDoc extends IQuestion, Document {

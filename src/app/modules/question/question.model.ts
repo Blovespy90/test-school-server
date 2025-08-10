@@ -1,14 +1,27 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import { STATUS_CODES } from '@/constants';
 import { QUESTION_LEVELS } from '@/modules/question/question.constants';
-import type { IQuestionDoc, IQuestionModel } from '@/modules/question/question.types';
+import type {
+	IQuestionDoc,
+	IQuestionModel,
+	IQuestionOption,
+} from '@/modules/question/question.types';
 import { Schema, model } from 'mongoose';
+
+const optionSchema = new Schema<IQuestionOption>(
+	{
+		option: { type: String, required: true },
+		is_correct: { type: Boolean, required: true },
+	},
+	{ _id: false }
+);
 
 const questionSchema = new Schema<IQuestionDoc>(
 	{
 		title: {
 			type: String,
 			required: true,
+			unique: true,
 		},
 		competency: {
 			type: Schema.Types.ObjectId,
@@ -21,12 +34,7 @@ const questionSchema = new Schema<IQuestionDoc>(
 			required: true,
 		},
 		options: {
-			type: [
-				{
-					option: { type: String, required: true },
-					is_correct: { type: Boolean, required: true },
-				},
-			],
+			type: [optionSchema],
 			required: true,
 		},
 	},

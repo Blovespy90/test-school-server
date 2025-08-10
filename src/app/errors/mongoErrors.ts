@@ -1,6 +1,6 @@
 import type { IDuplicateError, IErrorResponse, IErrorSource } from '@/types/interfaces';
 import type { Error as MongoError } from 'mongoose';
-import { capitalizeString } from 'nhb-toolbox';
+import { capitalizeString, pluralizer } from 'nhb-toolbox';
 
 interface DuplicateInfo {
 	db: string | null;
@@ -103,11 +103,13 @@ export const handleDuplicateError = (error: IDuplicateError, stack?: string) => 
 	const value = fields[field] ?? error?.keyValue?.[field] ?? 'duplicate';
 
 	const docName =
-		collection ? capitalizeString(collection).replace(/s(?=[^s]*$)/, '') : 'Document';
+		collection ?
+			pluralizer.toSingular(capitalizeString(collection?.trim()))
+		:	'Document';
 
 	return {
 		statusCode: 409,
-		name: 'MongoDB Duplicate Error',
+		name: 'Duplicate Error',
 		errorSource: [
 			{
 				path: field,

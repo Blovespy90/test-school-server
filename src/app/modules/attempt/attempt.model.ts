@@ -1,10 +1,23 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import { STATUS_CODES } from '@/constants';
-import type { IAttemptDoc, IAttemptModel } from '@/modules/attempt/attempt.types';
+import type {
+	IAttemptDoc,
+	IAttemptedQuestion,
+	IAttemptModel,
+} from '@/modules/attempt/attempt.types';
 import { QUESTION_LEVELS } from '@/modules/question/question.constants';
 import type { TQuestionLevel } from '@/modules/question/question.types';
 import { Schema, model } from 'mongoose';
 import { getNumbersInRange } from 'nhb-toolbox';
+
+const questionSchema = new Schema<IAttemptedQuestion>(
+	{
+		question: { type: Schema.Types.ObjectId, required: true, ref: 'Question' },
+		selected_option: { type: String, required: true },
+		is_correct: { type: Boolean, required: true },
+	},
+	{ _id: false }
+);
 
 const attemptSchema = new Schema<IAttemptDoc>(
 	{
@@ -39,13 +52,7 @@ const attemptSchema = new Schema<IAttemptDoc>(
 			enum: QUESTION_LEVELS,
 			required: true,
 		},
-		questions: [
-			{
-				question: { type: Schema.Types.ObjectId, required: true, ref: 'Question' },
-				selected_option: { type: String, required: true },
-				is_correct: { type: Boolean, required: true },
-			},
-		],
+		questions: { type: [questionSchema], required: true },
 	},
 	{
 		timestamps: {

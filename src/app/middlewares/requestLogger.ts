@@ -20,7 +20,11 @@ export const requestLogger: RequestHandler = (req, res, next) => {
 
 	res.on('finish', () => {
 		if (req.user) {
-			console.info(chalk.yellowBright(`👤 Current User: 📧 ${req.user?.email}`));
+			console.info(
+				chalk.yellowBright(
+					`👤 Current User: 📧 ${req.user?.email} : ${req.user?.role}`
+				)
+			);
 		}
 
 		const end = process.hrtime.bigint();

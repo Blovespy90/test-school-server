@@ -1,6 +1,7 @@
 import type { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import type { IErrorResponse, IParserError } from '@/types/interfaces';
 
+/** * Process custom `ErrorWithStatus` */
 export const handleErrorWithStatus = (error: ErrorWithStatus, stack?: string) => {
 	return {
 		statusCode: error.status,
@@ -15,9 +16,7 @@ export const handleErrorWithStatus = (error: ErrorWithStatus, stack?: string) =>
 	};
 };
 
-/**
- * Processes general Error objects.
- */
+/** * Processes general Error objects. */
 export const handleGenericError = (error: Error, stack?: string): IErrorResponse => {
 	return {
 		statusCode: 500,
@@ -32,17 +31,15 @@ export const handleGenericError = (error: Error, stack?: string): IErrorResponse
 	};
 };
 
-/**
- * Processes Express Body Parser Errors.
- */
+/** * Processes Express Body Parser Errors. */
 export const handleParserError = (_error: IParserError, stack?: string): IErrorResponse => {
 	return {
 		statusCode: 400,
-		name: 'Invalid JSON Payload!',
+		name: 'Invalid JSON Payload',
 		errorSource: [
 			{
 				path: 'req.body',
-				message: 'The provided JSON payload is invalid.',
+				message: 'The provided JSON payload is invalid!',
 			},
 		],
 		stack,
