@@ -1,8 +1,11 @@
+import type { QUESTION_LEVELS } from '@/modules/question/question.constants';
 import type { Document, Model, Types } from 'mongoose';
 
 export interface IQuestion {
-	// Define IQuestion interface
-	property: 'Define types';
+	title: string;
+	competency: Types.ObjectId;
+	level: (typeof QUESTION_LEVELS)[number];
+	options: Array<{ option: string; is_correct: boolean }>;
 }
 
 export interface IQuestionDoc extends IQuestion, Document {

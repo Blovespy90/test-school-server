@@ -1,6 +1,6 @@
 {
   "name": "test-school-server",
-  "version": "1.3.10",
+  "version": "1.3.11",
   "description": "Express TypeScript Mongoose Server",
   "scripts": {
     "dev": "nodemon",

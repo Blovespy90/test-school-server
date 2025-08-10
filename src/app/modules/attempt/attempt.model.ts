@@ -1,5 +1,5 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
-import { STATUS_CODES } from '@/constants/index';
+import { STATUS_CODES } from '@/constants';
 import type { IAttemptDoc, IAttemptModel } from '@/modules/attempt/attempt.types';
 import { Schema, model } from 'mongoose';
 

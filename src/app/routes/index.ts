@@ -1,3 +1,4 @@
+import { competencyRoutes } from '@/modules/competency/competency.routes';
 import { attemptRoutes } from '@/modules/attempt/attempt.routes';
 import { questionRoutes } from '@/modules/question/question.routes';
 import { authRoutes } from '@/modules/auth/auth.routes';
@@ -14,6 +15,7 @@ const routes: IRoute[] = [
 	{ path: '/verifications', route: verificationRoutes },
 	{ path: '/questions', route: questionRoutes },
 	{ path: '/attempts', route: attemptRoutes },
+	{ path: '/competencies', route: competencyRoutes },
 ];
 
 routes.forEach((item) => router.use(item.path, item.route));
