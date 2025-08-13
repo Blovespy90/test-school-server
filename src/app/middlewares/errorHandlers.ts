@@ -1,6 +1,7 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import configs from '@/configs';
 import processErrors from '@/errors/processErrors';
+import { deleteFromCloudinary } from '@/utilities/cloudinaryUtilities';
 import chalk from 'chalk';
 import type { ErrorRequestHandler, RequestHandler } from 'express';
 import { STATUS_CODES } from 'nhb-toolbox/constants';
@@ -18,7 +19,26 @@ export const handleRouteNotFound: RequestHandler = (req, _res, next) => {
 };
 
 /** * Middleware to Handle Global Errors. */
-export const catchAllErrors: ErrorRequestHandler = (err, _req, res, next) => {
+export const catchAllErrors: ErrorRequestHandler = async (err, req, res, next) => {
+	if (req?.cloudinary_public_id) {
+		try {
+			const res = await deleteFromCloudinary(req.cloudinary_public_id);
+
+			if (res.result === 'ok') {
+				delete req.cloudinary_public_id;
+			} else {
+				throw new ErrorWithStatus(
+					'Cloudinary Delete Error',
+					'Failed to delete image from Cloudinary!',
+					STATUS_CODES.BAD_REQUEST,
+					req.path
+				);
+			}
+		} catch (err) {
+			console.error(chalk.redBright('Cloudinary cleanup failed:', err));
+		}
+	}
+
 	const { statusCode, name, errorSource, stack } = processErrors(err);
 
 	// * Log error msg in the server console

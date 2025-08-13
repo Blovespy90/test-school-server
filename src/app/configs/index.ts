@@ -17,7 +17,7 @@ export default {
 	cloudName: process.env.CLOUD_NAME as string,
 	cloudinaryApiKey: process.env.CLOUDINARY_API_KEY as string,
 	cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET as string,
-	imageBaseUrl: process.env.CLOUDINARY_IMAGE_BASE_URL as string,
+	cloudinaryImageBaseUrl: process.env.CLOUDINARY_IMAGE_BASE_URL as string,
 	email: process.env.EMAIL as string,
 	emailPassword: process.env.EMAIL_PASSWORD as string,
 	resetPasswordLink: process.env.PASSWORD_RESET_LINK as string,

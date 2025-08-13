@@ -1,6 +1,7 @@
 import type { TEmail, TUserRole } from '@/types';
 import type { Router } from 'express';
 import type { JwtPayload } from 'jsonwebtoken';
+import type { LooseLiteral } from 'nhb-toolbox/utils/types';
 import type Mail from 'nodemailer/lib/mailer';
 
 export interface IDuplicateError {
@@ -62,4 +63,8 @@ export interface DecodedUser extends JwtPayload {
 
 export interface EmailOptions extends Omit<Mail.Options, 'from' | 'to'> {
 	to: TEmail;
+}
+
+export interface DestroyResponse extends Record<string, unknown> {
+	result: LooseLiteral<'ok' | 'not found' | 'error'>;
 }

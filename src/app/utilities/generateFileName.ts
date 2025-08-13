@@ -1,18 +1,20 @@
-import { generateRandomID } from 'nhb-toolbox';
+import { generateRandomID, trimString } from 'nhb-toolbox';
 
 /**
  * * Generate a random filename for file upload to cloudinary.
- * @param suffix Suffix to add before the filename.
+ * @param prefix Prefix to add before the filename.
  * @returns The generated filename.
  */
-export const generateFileName = (suffix: string): string => {
-	return generateRandomID({
-		caseOption: 'lower',
-		prefix: `bill_buddy_${suffix}`,
-		timeStamp: true,
-		separator: '_',
-		length: 6,
-	})
-		.replace(/[^a-zA-Z0-9-_ .]/g, '_')
-		.toLowerCase();
+export const generateFileName = (prefix: string): string => {
+	return trimString(
+		generateRandomID({
+			caseOption: 'lower',
+			timeStamp: true,
+			separator: '_',
+			length: 6,
+			prefix,
+		})
+			.replace(/[^a-zA-Z0-9-_ .]/g, '_')
+			.toLowerCase()
+	);
 };
