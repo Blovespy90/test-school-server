@@ -104,7 +104,7 @@ export function formatResetPasswordEmail(resetLink: string, expireMinutes = 10):
 						display: inline-block;
 						padding: 12px 20px;
 						margin: 20px 0;
-						color: #ffffff;
+						color: #ffffff !important;
 						background-color: #2563eb;
 						border-radius: 5px;
 						text-decoration: none;

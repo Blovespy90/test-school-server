@@ -47,15 +47,27 @@ const getCurrentUser = catchAsync(async (req, res) => {
 });
 
 const forgetPassword = catchAsync(async (req, res) => {
-	const result = await authServices.forgetPassword(req?.user?.email);
+	const result = await authServices.forgetPassword(req.body);
 
-	sendResponse(res, 'User', 'GET', result, 'Password reset link is to your email!');
+	sendResponse(
+		res,
+		'User',
+		'POST',
+		result,
+		'Password reset link has been sent to your email!'
+	);
 });
 
 const resetPassword = catchAsync(async (req, res) => {
-	const result = await authServices.resetPassword(req.body, req?.user?.email);
+	const result = await authServices.resetPassword(req.body);
 
-	sendResponse(res, 'User', 'GET', result, 'Successfully reset password!');
+	sendResponse(
+		res,
+		'User',
+		'POST',
+		result,
+		'Successfully reset password! Please login again!'
+	);
 });
 
 export const authControllers = {

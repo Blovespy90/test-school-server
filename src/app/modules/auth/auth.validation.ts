@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+const emailSchema = z.email({ error: 'Please provide a valid email address!' }).trim();
+
 const passwordSchema = z
 	.string({ error: 'Password is required!' })
 	.trim()
@@ -13,16 +15,18 @@ const passwordSchema = z
 /** Zod schema to validate login credentials. */
 const loginSchema = z
 	.object({
-		email: z.email({ error: 'Please provide a valid email address!' }).trim(),
+		email: emailSchema,
 		password: passwordSchema,
 	})
 	.strict();
 
-const passwordResetSchema = z
+const resetPasswordSchema = z
 	.object({
 		token: z.string({ error: 'Token is required!' }),
 		new_password: passwordSchema,
 	})
 	.strict();
 
-export const authValidations = { loginSchema, passwordResetSchema };
+const forgetPasswordSchema = z.object({ email: emailSchema });
+
+export const authValidations = { loginSchema, resetPasswordSchema, forgetPasswordSchema };

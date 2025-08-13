@@ -16,9 +16,9 @@ import type { IVerificationDoc } from '@/modules/verification/verification.types
 import type { TEmail } from '@/types';
 import type { DecodedUser } from '@/types/interfaces';
 import {
+	comparePassword,
 	generateToken,
 	hashPassword,
-	isValidToken,
 	verifyToken,
 } from '@/utilities/authUtilities';
 import {
@@ -122,8 +122,8 @@ const getCurrentUserFromDB = async (client?: DecodedUser) => {
 	return userInfo;
 };
 
-const forgetPassword = async (email: TEmail | undefined) => {
-	const user = await User.validateUser(email);
+const forgetPassword = async (payload: { email: TEmail }) => {
+	const user = await User.validateUser(payload?.email);
 
 	const jwtPayload = {
 		email: user.email,
@@ -148,14 +148,18 @@ const forgetPassword = async (email: TEmail | undefined) => {
 	return { message: 'Sent password reset link to your email!' };
 };
 
-const resetPassword = async (payload: IResetPassword, email: TEmail | undefined) => {
+const resetPassword = async (payload: IResetPassword) => {
+	const { email } = verifyToken(configs.accessSecret, payload.token);
+
 	const user = await User.validateUser(email);
 
-	if (!isValidToken(payload.token, user.email, configs.accessSecret)) {
+	const isSamePassword = await comparePassword(payload.new_password, user.password);
+
+	if (isSamePassword) {
 		throw new ErrorWithStatus(
-			'Forbidden Access',
-			"The resource you're trying to access is forbidden!",
-			STATUS_CODES.FORBIDDEN,
+			'Password Error',
+			'New password must be different than the old password!',
+			STATUS_CODES.BAD_REQUEST,
 			'reset_password'
 		);
 	}
@@ -176,7 +180,9 @@ const resetPassword = async (payload: IResetPassword, email: TEmail | undefined)
 		);
 	}
 
-	return { message: 'Successfully reset password!' };
+	return {
+		message: 'Successfully reset password! Please login again using the new password',
+	};
 };
 
 export const authServices = {

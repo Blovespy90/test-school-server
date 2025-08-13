@@ -1,7 +1,6 @@
 import { ErrorWithStatus } from '@/classes/ErrorWithStatus';
 import configs from '@/configs';
 import type { IUser } from '@/modules/user/user.types';
-import type { TEmail } from '@/types';
 import type { DecodedUser } from '@/types/interfaces';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -83,7 +82,7 @@ export const verifyToken = (secret: string, token?: string): DecodedUser => {
 	if (!token) {
 		throw new ErrorWithStatus(
 			'Authorization Error',
-			'Invalid credentials!',
+			'Bad or Invalid token!',
 			STATUS_CODES.UNAUTHORIZED,
 			'auth'
 		);
@@ -102,17 +101,48 @@ export const verifyToken = (secret: string, token?: string): DecodedUser => {
 };
 
 /**
- * * Check if a token contains certain email and expiry
- * @param token Token to decode and verify
- * @param email User email to compare
- * @param secret Secret used when the token was issued
+ * * Decode a token. it does not verify the token, uses `jwt.decode.`
+ * @param token Token to decode.
+ * @returns Decoded token.
  */
-export function isValidToken(token: string, email: TEmail, secret: string) {
-	const decoded = verifyToken(secret, token);
+export function decodeToken(token: string) {
+	if (!token) {
+		throw new ErrorWithStatus(
+			'Authorization Error',
+			'Bad or Invalid token!',
+			STATUS_CODES.UNAUTHORIZED,
+			'auth'
+		);
+	}
 
-	return Boolean(
-		email === decoded.email &&
-			decoded.exp &&
-			new Chronos().isEqualOrBefore(decoded.exp * 1000)
-	);
+	try {
+		return jwt.decode(token, { json: true }) as DecodedUser | null;
+	} catch (_error) {
+		throw new ErrorWithStatus(
+			'Authorization Error',
+			'Your token is invalid or expired!',
+			STATUS_CODES.UNAUTHORIZED,
+			'auth'
+		);
+	}
+}
+
+/**
+ * * Check the expiry of a `jwt` encoded token.
+ * @param token Token to check for expiry in.
+ * @returns The difference between the current time and expiry time in seconds.
+ */
+export function checkTokenExpiry(token: string) {
+	const decoded = decodeToken(token);
+
+	if (!decoded || !decoded?.exp) {
+		throw new ErrorWithStatus(
+			'Bad Token',
+			'Your token is invalid!',
+			STATUS_CODES.UNAUTHORIZED,
+			'auth'
+		);
+	}
+
+	return new Chronos().diff(decoded.exp * 1000, 'second');
 }
