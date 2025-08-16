@@ -46,7 +46,7 @@ const matchVerificationInDB = async (code: string, email: TEmail | undefined) =>
 
 			try {
 				await sendEmail({
-					to: email!,
+					to: user.email,
 					subject: 'Test School Account Verification',
 					html: /* html */ `
 						<!DOCTYPE html>

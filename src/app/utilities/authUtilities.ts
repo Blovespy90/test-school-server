@@ -5,7 +5,7 @@ import type { DecodedUser } from '@/types/interfaces';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import type { StringValue } from 'ms';
-import { Chronos } from 'nhb-toolbox';
+import { Chronos, roundNumber } from 'nhb-toolbox';
 import { STATUS_CODES } from 'nhb-toolbox/constants';
 
 /**
@@ -144,5 +144,5 @@ export function checkTokenExpiry(token: string) {
 		);
 	}
 
-	return new Chronos().diff(decoded.exp * 1000, 'second');
+	return roundNumber(new Chronos().diff(decoded.exp * 1000, 'second'), 0);
 }

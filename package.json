@@ -40,7 +40,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.17.1",
     "multer": "^2.0.2",
-    "nhb-toolbox": "^4.14.4",
+    "nhb-toolbox": "^4.14.9",
     "nodemailer": "^7.0.5",
     "zod": "^4.0.15"
   },
@@ -63,7 +63,7 @@
     "globals": "^16.3.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.4",
-    "nhb-scripts": "^1.8.56",
+    "nhb-scripts": "^1.8.57",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",

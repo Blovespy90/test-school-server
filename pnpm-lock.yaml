@@ -39,8 +39,8 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
       nhb-toolbox:
-        specifier: ^4.14.4
-        version: 4.14.4
+        specifier: ^4.14.9
+        version: 4.14.9
       nodemailer:
         specifier: ^7.0.5
         version: 7.0.5
@@ -103,8 +103,8 @@ importers:
         specifier: ^16.1.4
         version: 16.1.4
       nhb-scripts:
-        specifier: ^1.8.56
-        version: 1.8.56
+        specifier: ^1.8.57
+        version: 1.8.57
       nodemon:
         specifier: ^3.1.10
         version: 3.1.10
@@ -1719,13 +1719,13 @@ packages:
     resolution: {integrity: sha512-8Ofs/AUQh8MaEcrlq5xOX0CQ9ypTF5dl78mjlMNfOK08fzpgTHQRQPBxcPlEtIw0yRpws+Zo/3r+5WRby7u3Gg==}
     engines: {node: '>= 0.6'}
 
-  nhb-scripts@1.8.56:
-    resolution: {integrity: sha512-ePwatNH8/vg8R6o70Mol70yw1/7kKZ1WFL5l2OyvlCClKv82C/AefzVmuIBVfKvNRiPex/3aiBT6BktvDz9TwA==}
+  nhb-scripts@1.8.57:
+    resolution: {integrity: sha512-iw7QvaVbfDUz+QdHSg9B814R/lIcyPL7frKSGYrQxS3vmvKUFBT2cWYDdQs4EAKynE4pX0fuO5DdH+GsDfgDDA==}
     engines: {node: '>=18'}
     hasBin: true
 
-  nhb-toolbox@4.14.4:
-    resolution: {integrity: sha512-x46LYUjfOFaTXqoQJ14eT3wwW1dgIlNP/7cJ3Wi4bhc3Dz/X044J5vK7jpCmL6eYQpJwCkqDQo05MONhNoyvsw==}
+  nhb-toolbox@4.14.9:
+    resolution: {integrity: sha512-s68j+Bx53LTzBKBOSgvS9AErZt/FVRpLhbCcS5nK0Jp9znDh21na0gAaoJhJGwOLoKyO1D9qgH2WUDLUKhzhHg==}
 
   node-addon-api@8.5.0:
     resolution: {integrity: sha512-/bRZty2mXUIFY/xU5HLvveNHlswNJej+RnxBjOMkidWfwZzgTbPG1E3K5TOxRLOR+5hX7bSofy8yf1hZevMS8A==}
@@ -4164,21 +4164,21 @@ snapshots:
 
   negotiator@1.0.0: {}
 
-  nhb-scripts@1.8.56:
+  nhb-scripts@1.8.57:
     dependencies:
       '@clack/prompts': 0.11.0
       chalk: 5.4.1
       execa: 9.6.0
       globby: 14.1.0
       minimist: 1.2.8
-      nhb-toolbox: 4.14.4
+      nhb-toolbox: 4.14.9
       progress-estimator: 0.3.1
       rimraf: 6.0.1
       semver: 7.7.2
       type-fest: 4.41.0
       typescript: 5.9.2
 
-  nhb-toolbox@4.14.4: {}
+  nhb-toolbox@4.14.9: {}
 
   node-addon-api@8.5.0: {}
 
